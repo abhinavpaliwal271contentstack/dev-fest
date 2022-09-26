@@ -106,7 +106,7 @@ const ConfigScreen: React.FC = function () {
     initialValues: {
       data: [{
         name: "",
-        stackApiKey: "",
+        stackApiKey: "blt24dcf2e98f671ca5",
         enabled: false,
         pathApplicable: [
           {
@@ -121,7 +121,7 @@ const ConfigScreen: React.FC = function () {
       }]
     },
     onSubmit: (value) => {
-      console.log(value)
+      console.log(JSON.stringify(value))
     }
   })
 
@@ -136,7 +136,7 @@ const ConfigScreen: React.FC = function () {
             <div style={{ width: '200px' }}>
               <Button type="button" size="large" onClick={() => formik.setFieldValue('data', [...formik.values.data, {
                 name: "",
-                stackApiKey: "",
+                stackApiKey: "blt24dcf2e98f671ca5",
                 enabled: false,
                 pathApplicable: [
                   {
@@ -169,7 +169,6 @@ const ConfigScreen: React.FC = function () {
                   </div>
 
                   {toggle?.pathApplicable.map((applicablePath: any, j) => {
-                    console.log(applicablePath)
                     return (<div style={{ display: 'flex', paddingTop: '10px' }}>
                       <Select
                         selectLabel={"ContentType"}
@@ -210,6 +209,7 @@ const ConfigScreen: React.FC = function () {
           </>
         </div>
       </div>
+      <div style={{ width: '100px', marginLeft: 'auto', marginRight: '20px' }}><Button icon="save" onClick={formik.submitForm}>Save Button </Button></div>
     </div>
   );
 };
