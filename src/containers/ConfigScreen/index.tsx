@@ -23,6 +23,7 @@ import "./styles.scss";
 import { useFormik } from "formik";
 
 const managementToken = 'cs41efbfd7bd173b31d4c15434';
+const apiKey = 'blt62a4a10a1212b1c6'
 const conditions = [
   {
     value: "add",
@@ -69,7 +70,7 @@ const ConfigScreen: React.FC = function () {
           await sdkConfigData.getInstallationData();
         const setInstallationDataOfSDK = sdkConfigData.setInstallationData;
         const contenttypes = await fetchContentTypes();
-        const toggles = await fetchToggles("blt24dcf2e98f671ca5");
+        const toggles = await fetchToggles(apiKey);
         setState({
           ...state,
           installationData: utils.mergeObjects(
@@ -114,7 +115,7 @@ const ConfigScreen: React.FC = function () {
     initialValues: {
       data: state.toggles?.length ? state.toggles : [{
         name: "",
-        stackApiKey: "blt24dcf2e98f671ca5",
+        stackApiKey: apiKey,
         enabled: false,
         pathApplicable: [
           {
@@ -146,7 +147,7 @@ const ConfigScreen: React.FC = function () {
             <div style={{ width: '200px' }}>
               <Button type="button" size="large" onClick={() => formik.setFieldValue('data', [...formik.values.data, {
                 name: "",
-                stackApiKey: "blt24dcf2e98f671ca5",
+                stackApiKey: apiKey,
                 enabled: false,
                 pathApplicable: [
                   {
@@ -264,7 +265,7 @@ const RenderOption = ({ parentState, applicablePath, formik, path }: { parentSta
 const fetchContentTypes = async () => {
   const response = await fetch('https://api.contentstack.io/v3/content_types', {
     headers: {
-      api_key: "blt24dcf2e98f671ca5",
+      api_key: apiKey,
       authorization: managementToken
     }
   })
