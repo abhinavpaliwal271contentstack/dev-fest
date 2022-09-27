@@ -22,7 +22,7 @@ import "@contentstack/venus-components/build/main.css";
 import "./styles.scss";
 import { useFormik } from "formik";
 
-
+const managementToken = 'cs41efbfd7bd173b31d4c15434';
 const conditions = [
   {
     value: "add",
@@ -265,7 +265,7 @@ const fetchContentTypes = async () => {
   const response = await fetch('https://api.contentstack.io/v3/content_types', {
     headers: {
       api_key: "blt24dcf2e98f671ca5",
-      authorization: "csfa4b66976f8fc80c114c87cb"
+      authorization: managementToken
     }
   })
   const data = await response.text()
