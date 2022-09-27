@@ -69,7 +69,7 @@ const ConfigScreen: React.FC = function () {
           await sdkConfigData.getInstallationData();
         const setInstallationDataOfSDK = sdkConfigData.setInstallationData;
         const contenttypes = await fetchContentTypes();
-        const toggles = fetchToggles("blt24dcf2e98f671ca5");
+        const toggles = await fetchToggles("blt24dcf2e98f671ca5");
         setState({
           ...state,
           installationData: utils.mergeObjects(
