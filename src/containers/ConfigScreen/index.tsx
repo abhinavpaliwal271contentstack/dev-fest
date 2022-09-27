@@ -109,6 +109,7 @@ const ConfigScreen: React.FC = function () {
     return true;
   };
 
+  console.log("state.toggles", state)
   const formik = useFormik({
     initialValues: {
       data: state.toggles?.length ? state.toggles : [{
