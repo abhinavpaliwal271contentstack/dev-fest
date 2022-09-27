@@ -111,7 +111,7 @@ const ConfigScreen: React.FC = function () {
 
   const formik = useFormik({
     initialValues: {
-      data: state.toggles.length ? state.toggles : [{
+      data: state.toggles?.length ? state.toggles : [{
         name: "",
         stackApiKey: "blt24dcf2e98f671ca5",
         enabled: false,
