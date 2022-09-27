@@ -289,7 +289,7 @@ const getOption = (contentTypes: any) => {
 }
 
 const fetchToggles = async (apiKey: string)=>{
-  const response = await fetch(`https://ackosnew.devcontentstackapps.com/api/functions/feature_toggle?stack_api_key=${apiKey}`,{method: 'GET'})
+  const response = await fetch(`/featureToggle?stack_api_key=${apiKey}`,{method: 'GET'})
   const data = await response.text()
   return JSON.parse(data)
 }
