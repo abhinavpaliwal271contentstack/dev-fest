@@ -253,7 +253,7 @@ const RenderOption = ({ parentState, applicablePath, formik, path }: { parentSta
       <div className="ml-20">
         <Select
           selectLabel={"New Field"}
-          value={undefined}
+          value={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType).find((el:any) => el.value === applicablePath.newField)}
           onChange={(val: any) => formik.setFieldValue(path + "newField", val.value)}
           options={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType).find((el:any) => el.value === applicablePath.newField)}
           width="180px"
