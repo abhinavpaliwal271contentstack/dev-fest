@@ -126,12 +126,13 @@ const ConfigScreen: React.FC = function () {
             }
           }
         ]
-      }]
+      }],
     },
     onSubmit: (value) => {
       console.log(JSON.stringify(value))
       saveToggles(value)
-    }
+    },
+    enableReinitialize: true
   })
 
   if (!state?.contenttypes?.content_types?.length) {
@@ -230,7 +231,7 @@ const RenderOption = ({ parentState, applicablePath, formik, path }: { parentSta
     return (<div className="ml-20">
       <Select
         selectLabel={"New Field"}
-        value={undefined}
+        value={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType).find((el:any) => el.value === applicablePath.newField)}
         onChange={(val: any) => formik.setFieldValue(path + "newField", val.value)}
         options={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType)}
         width="180px"
@@ -242,7 +243,7 @@ const RenderOption = ({ parentState, applicablePath, formik, path }: { parentSta
       <div className="ml-20">
         <Select
           selectLabel={"Current Field"}
-          value={undefined}
+          value={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType).find((el:any) => el.value === applicablePath.currentField)}
           onChange={(val: any) => formik.setFieldValue(path + "currentField", val.value)}
           options={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType)}
           width="180px"
@@ -253,7 +254,7 @@ const RenderOption = ({ parentState, applicablePath, formik, path }: { parentSta
           selectLabel={"New Field"}
           value={undefined}
           onChange={(val: any) => formik.setFieldValue(path + "newField", val.value)}
-          options={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType)}
+          options={getFieldOptions(parentState.contenttypes.content_types, applicablePath.contentType).find((el:any) => el.value === applicablePath.newField)}
           width="180px"
         />
       </div>
@@ -289,20 +290,20 @@ const getOption = (contentTypes: any) => {
   }))
 }
 
-const fetchToggles = async (apiKey: string)=>{
-  const response = await fetch(`/featureToggle?stack_api_key=${apiKey}`,{method: 'GET'})
+const fetchToggles = async (apiKey: string) => {
+  const response = await fetch(`/featureToggle?stack_api_key=${apiKey}`, { method: 'GET' })
   const data = await response.text()
   return JSON.parse(data)
 }
 
-const saveToggles = async ({data}: any)=> {
-  for(const el of data){
+const saveToggles = async ({ data }: any) => {
+  for (const el of data) {
     console.log(el)
-    if(el._id){
-      await fetch(`/featureToggle?feature_toggle_id=${el._id}`, {method: 'PATCH', body: JSON.stringify(el), headers: {'Content-Type': "application/json"}});
-    }else{
+    if (el._id) {
+      await fetch(`/featureToggle?feature_toggle_id=${el._id}`, { method: 'PATCH', body: JSON.stringify(el), headers: { 'Content-Type': "application/json" } });
+    } else {
       el._id = getID();
-      await fetch(`/featureToggle`, {method: 'POST', body: JSON.stringify(el), headers: {'Content-Type': "application/json"}  });
+      await fetch(`/featureToggle`, { method: 'POST', body: JSON.stringify(el), headers: { 'Content-Type': "application/json" } });
     }
   }
   Notification({
