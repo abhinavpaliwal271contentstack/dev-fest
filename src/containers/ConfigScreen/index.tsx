@@ -296,11 +296,12 @@ const fetchToggles = async (apiKey: string)=>{
 
 const saveToggles = async ({data}: any)=> {
   for(const el of data){
+    console.log(el)
     if(el._id){
-      const response = await fetch(`/featureToggle`, {method: 'PATCH', body: JSON.stringify(el)});
+      await fetch(`/featureToggle?feature_toggle_id=${el._id}`, {method: 'PATCH', body: JSON.stringify(el)});
     }else{
       el._id = getID();
-      const response = await fetch(`/featureToggle`, {method: 'PATCH', body: JSON.stringify(el)});
+      await fetch(`/featureToggle`, {method: 'PATCH', body: JSON.stringify(el)});
     }
   }
   Notification({
