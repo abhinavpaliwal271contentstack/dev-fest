@@ -301,7 +301,7 @@ const saveToggles = async ({data}: any)=> {
       await fetch(`/featureToggle?feature_toggle_id=${el._id}`, {method: 'PATCH', body: JSON.stringify(el)});
     }else{
       el._id = getID();
-      await fetch(`/featureToggle`, {method: 'PATCH', body: JSON.stringify(el)});
+      await fetch(`/featureToggle`, {method: 'POST', body: JSON.stringify(el)});
     }
   }
   Notification({
