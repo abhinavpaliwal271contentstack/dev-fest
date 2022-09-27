@@ -220,7 +220,7 @@ const ConfigScreen: React.FC = function () {
           </>
         </div>
       </div>
-      <div style={{ width: '100px', marginLeft: 'auto', marginRight: '20px' }}><Button icon="save" onClick={formik.submitForm}>Save Button </Button></div>
+      <div style={{ width: '100px', marginLeft: 'auto', marginRight: '20px' }}><Button icon="save" onClick={formik.submitForm}>Save</Button></div>
     </div>
   );
 };
