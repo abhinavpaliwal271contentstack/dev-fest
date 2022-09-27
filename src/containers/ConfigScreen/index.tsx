@@ -8,7 +8,8 @@ import {
   Button,
   Select,
   Tooltip,
-  Icon
+  Icon,
+  Notification
 } from "@contentstack/venus-components";
 import ContentstackAppSdk from "@contentstack/app-sdk";
 /* Import our modules */
@@ -40,6 +41,10 @@ const conditions = [
   }
 ];
 
+const getID = function () {
+  return '_' + Math.random().toString(36).substr(2, 9);
+};
+
 /* eslint-disable */
 const ConfigScreen: React.FC = function () {
   const [state, setState] = useState<any>({
@@ -64,6 +69,7 @@ const ConfigScreen: React.FC = function () {
           await sdkConfigData.getInstallationData();
         const setInstallationDataOfSDK = sdkConfigData.setInstallationData;
         const contenttypes = await fetchContentTypes();
+        const toggles = fetchToggles("blt24dcf2e98f671ca5");
         setState({
           ...state,
           installationData: utils.mergeObjects(
@@ -72,7 +78,8 @@ const ConfigScreen: React.FC = function () {
           ),
           setInstallationData: setInstallationDataOfSDK,
           appSdkInitialized: true,
-          contenttypes: contenttypes
+          contenttypes: contenttypes,
+          toggles
         });
       }
     });
@@ -104,7 +111,7 @@ const ConfigScreen: React.FC = function () {
 
   const formik = useFormik({
     initialValues: {
-      data: [{
+      data: state.toggles ?? [{
         name: "",
         stackApiKey: "blt24dcf2e98f671ca5",
         enabled: false,
@@ -122,6 +129,7 @@ const ConfigScreen: React.FC = function () {
     },
     onSubmit: (value) => {
       console.log(JSON.stringify(value))
+      saveToggles(value)
     }
   })
 
@@ -152,7 +160,7 @@ const ConfigScreen: React.FC = function () {
               )}>+ Feature Toggle</Button>
 
             </div>
-            {formik.values?.data.map((toggle, i) => {
+            {formik.values?.data.map((toggle: any, i: string) => {
               return (
                 <div style={{ border: '2px solid #647696', padding: '10px', margin: '10px', borderRadius: '10px', width: '760px' }}>
                   <div style={{ display: 'flex', paddingRight: '50px', alignItems: "flex-start" }}>
@@ -168,7 +176,7 @@ const ConfigScreen: React.FC = function () {
                     </div>
                   </div>
 
-                  {toggle?.pathApplicable.map((applicablePath: any, j) => {
+                  {toggle?.pathApplicable.map((applicablePath: any, j: number) => {
                     return (<div style={{ display: 'flex', paddingTop: '10px' }}>
                       <Select
                         selectLabel={"ContentType"}
@@ -280,5 +288,27 @@ const getOption = (contentTypes: any) => {
   }))
 }
 
+const fetchToggles = async (apiKey: string)=>{
+  const response = await fetch(`https://ackosnew.devcontentstackapps.com/api/functions/feature_toggle?stack_api_key=${apiKey}`,{method: 'GET'})
+  const data = await response.text()
+  return JSON.parse(data)
+}
 
+const saveToggles = async ({data}: any)=> {
+  for(const el of data){
+    if(el._id){
+      const response = await fetch(`/featureToggle`, {method: 'PATCH', body: JSON.stringify(el)});
+    }else{
+      el._id = getID();
+      const response = await fetch(`/featureToggle`, {method: 'PATCH', body: JSON.stringify(el)});
+    }
+  }
+  Notification({
+    notificationContent: {
+      text: "Your fetaure toggle is saved with US"
+    },
+    notificationProps: { hideProgressBar: true },
+    type: 'success',
+  })
+}
 export default ConfigScreen;
