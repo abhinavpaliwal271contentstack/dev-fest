@@ -111,7 +111,7 @@ const ConfigScreen: React.FC = function () {
 
   const formik = useFormik({
     initialValues: {
-      data: state.toggles ?? [{
+      data: state.toggles.length ? state.toggles : [{
         name: "",
         stackApiKey: "blt24dcf2e98f671ca5",
         enabled: false,
@@ -298,10 +298,10 @@ const saveToggles = async ({data}: any)=> {
   for(const el of data){
     console.log(el)
     if(el._id){
-      await fetch(`/featureToggle?feature_toggle_id=${el._id}`, {method: 'PATCH', body: JSON.stringify(el)});
+      await fetch(`/featureToggle?feature_toggle_id=${el._id}`, {method: 'PATCH', body: JSON.stringify(el), headers: {'Content-Type': "application/json"}});
     }else{
       el._id = getID();
-      await fetch(`/featureToggle`, {method: 'POST', body: JSON.stringify(el)});
+      await fetch(`/featureToggle`, {method: 'POST', body: JSON.stringify(el), headers: {'Content-Type': "application/json"}  });
     }
   }
   Notification({
